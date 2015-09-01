@@ -39,9 +39,10 @@ rmJustfile(){
     
     done;
     
-    if [ $odometer > 0 ]; then
-        #statements
-        open -a /Applications/Justinmind.app
+    if [ $odometer -gt 0 ]; then
+
+        #open -a /Applications/Justinmind.app
+        echo 111
     fi
 }
 
@@ -50,8 +51,8 @@ rmJustfile(){
 eachUserdirectory(){
     
     local -a ex
-    
-    for directory in "$1/*"
+
+    for directory in $1*
                         
     do
                         
@@ -78,8 +79,6 @@ eachUserdirectory(){
                         
 if [[ "x$1" == 'x' ]]; then
                         
-    eachUserdirectory "/Users"
+    eachUserdirectory "/Users/"
                         
 fi;
-                        
-                        
