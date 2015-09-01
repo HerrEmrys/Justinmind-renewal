@@ -9,41 +9,47 @@
 
 rmJustfile(){
 
-	d=$1
+	dr=$1
 
-	val1="y"
+	odometer=0
 
-	read -p "Users directory is \"$1\" [Y/n] defaut \"Y\": "  val1
+	OLD_IFS="$IFS" 
 
-	if [ "$val1" = "n" ]; then
+	IFS="," 
 
-		read -p "Enter user directory (example: /Users/[Your name] | Note the case of letters) : " val2
+	dir_c=($dr) 
 
-		d=$val2
-		
-	fi;
+	IFS="$OLD_IFS"
 
-	if [ -f "/Applications/Justinmind.app/Contents/Resources/Java/configuration/.dat" ] && [ -d "$d/.datastorage" ] && [ -d "$d/Justinmind" ] && [ -d "$d/.configprops" ]; then 
+	for d in $dir_c
+
+	do
+
+		if [ -f "/Applications/Justinmind.app/Contents/Resources/Java/configuration/.dat" ] && [ -d "$d/.datastorage" ] && [ -d "$d/Justinmind" ] && [ -d "$d/.configprops" ]; then 
 
 		#rm ".datastorage" & ".configprops" & "Justinmind" dir and ".dat" file
 
-		rm /Applications/Justinmind.app/Contents/Resources/Java/configuration/.dat && rm -rf $d/.configprops && rm -rf $d/.datastorage && rm -rf $d/Justinmind
+		#rm /Applications/Justinmind.app/Contents/Resources/Java/configuration/.dat && rm -rf $d/.configprops && rm -rf $d/.datastorage && rm -rf $d/Justinmind
+
+		let odometer=odometer+1
 
 	    echo "Well done! Clean up, Continue to use for 30 days, please."
 
-	    exit 1
-	
-	else
+		fi;
 
-		echo "Faile clean or not install \"Justinmind\"."
+	done;
 
-	fi;
-	
+	if [ $odometer > 0 ]; then
+		#statements
+		open -a /Applications/Justinmind.app
+	fi
 }
 
 # Get the user name and user directory
 
 eachUserdirectory(){
+
+	local -a ex
 
     for directory in $1/*
 
@@ -57,16 +63,15 @@ eachUserdirectory(){
 
 			if [ "${vars[1]}" != "Shared" ] && [ "${vars[1]}" != "Guest" ]; then
 
-					#Executive remove
+				ex+=$directory,
 					
-					rmJustfile "$directory"
-
-					exit 1
-
 			fi;
 
 		fi;
+
 	done
+
+	rmJustfile "$ex"
 }
 
 # Start Script
