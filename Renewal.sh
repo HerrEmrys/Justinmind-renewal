@@ -41,8 +41,8 @@ rmJustfile(){
     
     if [ $odometer -gt 0 ]; then
 
-        #open -a /Applications/Justinmind.app
-        echo 111
+        open -a /Applications/Justinmind.app
+
     fi
 }
 
