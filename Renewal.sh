@@ -34,7 +34,10 @@ rmJustfile(){
             let odometer=odometer+1
     
             echo "Well done! Clean up, Continue to use for 30 days, please."
-    
+    	
+    	else
+
+    		echo "You not install Justinmind."
         fi;
     
     done;
