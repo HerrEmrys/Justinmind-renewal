@@ -25,11 +25,11 @@ rmJustfile(){
     
     do
     
-        if [ -f "/Applications/Justinmind.app/Contents/Resources/Java/configuration/.dat" ] && [ -d "$d/.datastorage" ] && [ -d "$d/Justinmind" ] && [ -d "$d/.configprops" ]; then
+        if [ -f "/Applications/Justinmind.app/Contents/Resources/Java/configuration/.dat" ] && [ -d "$d/.datastorage" ] && [ -d "$d/Justinmind" ] && [ -d "$d/.configprops" ] || [ -d "/Applications/Justinmind.app" ]; then
     
             #rm ".datastorage" & ".configprops" & "Justinmind" dir and ".dat" file
     
-            rm /Applications/Justinmind.app/Contents/Resources/Java/configuration/.dat && rm -rf $d/.configprops && rm -rf $d/.datastorage && rm -rf $d/Justinmind
+            rm /Applications/Justinmind.app/Contents/Resources/Java/configuration/.dat && rm -rf $d/.configprops && rm -rf $d/.datastorage # && rm -rf $d/Justinmind
     
             let odometer=odometer+1
     
@@ -44,7 +44,18 @@ rmJustfile(){
     
     if [ $odometer -gt 0 ]; then
 
-        open -a /Applications/Justinmind.app
+		ID=`ps -ef | grep "Justinmind" | grep -v "$0" | grep -v "grep" | awk '{print $2}'`
+
+		for id in $ID
+		do
+
+			kill -9 $id
+
+		done
+
+		sleep 3s; 
+
+		open -a /Applications/Justinmind.app
 
     fi
 }
