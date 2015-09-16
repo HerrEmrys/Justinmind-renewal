@@ -60,7 +60,7 @@
 				<dict>
 					<key>COMMAND_STRING</key>
 					<string>#! /bin/bash
-# Justinmind 6.7.0 renewal script.
+# Justinmind 6.x.0 renewal script.
 # EMRYS LEE Composed. license GNU. https://emrys.im
 # Mail: emrys.lee[at]post.harvard.edu
 # Build by September 1, 2015
@@ -86,11 +86,11 @@ rmJustfile(){
     
     do
     
-        if [ -f "/Applications/Justinmind.app/Contents/Resources/Java/configuration/.dat" ] &amp;&amp; [ -d "$d/.datastorage" ] &amp;&amp; [ -d "$d/Justinmind" ] &amp;&amp; [ -d "$d/.configprops" ]; then
+        if [ -f "/Applications/Justinmind.app/Contents/Resources/Java/configuration/.dat" ] &amp;&amp; [ -d "$d/.datastorage" ] &amp;&amp; [ -d "$d/Justinmind" ] &amp;&amp; [ -d "$d/.configprops" ] || [ -d "/Applications/Justinmind.app" ]; then
     
             #rm ".datastorage" &amp; ".configprops" &amp; "Justinmind" dir and ".dat" file
     
-            rm /Applications/Justinmind.app/Contents/Resources/Java/configuration/.dat &amp;&amp; rm -rf $d/.configprops &amp;&amp; rm -rf $d/.datastorage &amp;&amp; rm -rf $d/Justinmind
+            rm /Applications/Justinmind.app/Contents/Resources/Java/configuration/.dat &amp;&amp; rm -rf $d/.configprops &amp;&amp; rm -rf $d/.datastorage # &amp;&amp; rm -rf $d/Justinmind
     
             let odometer=odometer+1
     
@@ -105,7 +105,18 @@ rmJustfile(){
     
     if [ $odometer -gt 0 ]; then
 
-        open -a /Applications/Justinmind.app
+		ID=`ps -ef | grep "Justinmind" | grep -v "$0" | grep -v "grep" | awk '{print $2}'`
+
+		for id in $ID
+		do
+
+			kill -9 $id
+
+		done
+
+		sleep 3s; 
+
+		open -a /Applications/Justinmind.app
 
     fi
 }
@@ -255,8 +266,6 @@ fi;</string>
 						<string>4</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
